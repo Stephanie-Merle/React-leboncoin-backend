@@ -10,6 +10,9 @@ mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true
 });
 
+const userRoute = require("./routes/user");
+app.use(userRoute);
+
 app.listen(process.env.PORT, () => {
   console.log("server started");
 });
