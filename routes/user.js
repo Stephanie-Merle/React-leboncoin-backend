@@ -3,6 +3,8 @@ const router = express.Router();
 const SHA256 = require("crypto-js/sha256");
 const encBase64 = require("crypto-js/enc-base64");
 const uid2 = require("uid2");
+
+// Get User mdl
 const User = require("../models/user");
 
 // CREATE ***********
@@ -32,7 +34,32 @@ router.post("/user/sign_up", async (req, res) => {
   }
 });
 // READ   ***********
+router.post("/user/log_in", async (req, res) => {
+  //const hash = SHA256(req.body.password + salt).toString(encBase64);
+  //const toCheck = req.body.password;
+  try {
+    const exist = await User.findOne({ "account.email": req.body.email });
+    if (exist) {
+      const salt = exist.salt;
+      const hash = SHA256(req.body.password + salt).toString(encBase64);
+      // process password too check if hash stored is a match
+      if (hash === exist.hash) {
+        return res.json({
+          token: exist.token,
+          account: exist.account
+        });
+      } else {
+        return res.json({ message: "Wrong password" });
+      }
+    }
+    return res.json({ message: "Email not found" });
+  } catch (err) {
+    res.status(400).json({ error: "Bad request" });
+  }
+});
+
 // UPDATE ***********
+
 // DELETE ***********
 
 module.exports = router;

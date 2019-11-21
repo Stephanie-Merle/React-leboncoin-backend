@@ -18,5 +18,7 @@ const User = mongoose.model("User", {
   salt: { type: String },
   hash: { type: String }
 });
-
+// we could add offers: [{ type: Schema.Types.ObjectId, ref: "Offer" }]
+// and use length of the array to get how many offers the user has
+// could also add a 'last connection' field
 module.exports = User;
