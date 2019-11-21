@@ -22,16 +22,16 @@ router.post("/user/sign_up", async (req, res) => {
     });
     await newUser.save();
     return res.json({
-      _id: user._id,
-      token: user.token,
-      email: user.email,
-      username: user.username
+      _id: newUser._id,
+      token: newUser.token,
+      email: newUser.account.email,
+      username: newUser.account.username
     });
   } catch (err) {
     res.status(400).json({ error: "Bad request" });
   }
 });
-// CREATE ***********
+// READ   ***********
 // UPDATE ***********
 // DELETE ***********
 
