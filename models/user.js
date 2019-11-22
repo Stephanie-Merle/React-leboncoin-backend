@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// USER MDL
+// mdl USER schema
 const User = mongoose.model("User", {
   account: {
     username: { type: String, minlength: 3, maxlength: 20, required: true },

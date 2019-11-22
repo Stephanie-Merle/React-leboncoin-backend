@@ -11,12 +11,12 @@ const User = require("../models/user");
 router.post("/user/sign_up", async (req, res) => {
   const token = uid2(64);
   const salt = uid2(64);
-  const hash = SHA256(req.body.password + salt).toString(encBase64);
+  const hash = SHA256(req.fields.password + salt).toString(encBase64);
   try {
     const newUser = await new User({
       account: {
-        username: req.body.username,
-        email: req.body.email
+        username: req.fields.username,
+        email: req.fields.email
       },
       token: token,
       salt: salt,
@@ -35,13 +35,14 @@ router.post("/user/sign_up", async (req, res) => {
 });
 // READ   ***********
 router.post("/user/log_in", async (req, res) => {
-  //const hash = SHA256(req.body.password + salt).toString(encBase64);
-  //const toCheck = req.body.password;
+  //const hash = SHA256(req.fields.password + salt).toString(encBase64);
+  //const toCheck = req.fields.password;
   try {
-    const exist = await User.findOne({ "account.email": req.body.email });
+    const exist = await User.findOne({ "account.email": req.fields.email });
     if (exist) {
+      console.log(exist);
       const salt = exist.salt;
-      const hash = SHA256(req.body.password + salt).toString(encBase64);
+      const hash = SHA256(req.fields.password + salt).toString(encBase64);
       // process password too check if hash stored is a match
       if (hash === exist.hash) {
         return res.json({

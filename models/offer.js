@@ -8,16 +8,8 @@ const Offer = mongoose.model("Offer", {
   description: { type: String },
   created: { type: Date, default: Date.now },
   creator: {
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-    },
-    account: {
-      username: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-      }
-    }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   }
 });
 
