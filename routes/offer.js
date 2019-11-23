@@ -32,14 +32,6 @@ router.post("/api/offer/publish", async (req, res) => {
   const user = await User.findOne({ token: token });
 
   try {
-    // console.log(req.files.image.path);
-    // cloudinary.v2.uploader.upload(req.files.image.path, (error, result) => {
-    //   if (error) {
-    //     console.log("error upload");
-    //   } else {
-    //     console.log(result.url);
-    //   }
-    // });
     const newOffer = await new Offer({
       title: req.fields.title,
       description: req.fields.description,
@@ -48,15 +40,32 @@ router.post("/api/offer/publish", async (req, res) => {
       creator: user
       //TODO upload to cloudinary and get link
     });
-
+    const picture = newOffer.pictures[0].files.path;
+    const cloudImg = await cloudinary.v2.uploader.upload(
+      picture,
+      (error, result) => {
+        if (error) {
+          console.log("error upload");
+        } else {
+          console.log(result.url);
+          return result.url;
+        }
+      }
+    );
+    newOffer.pictures = await cloudImg.url;
+    // newOffer.populate({
+    //   path: "Account",
+    //   model: User
+    // });
     await newOffer.save();
-    return res.json({ message: "Offer created" });
+
+    return res.json({ message: "done" });
   } catch (err) {
     res.status(400).json({ error: "Bad request" });
   }
 });
 // READ   ***********
-
+//router.post("api/offer/with-count", async (req, res) => {});
 // UPDATE ***********
 
 // DELETE ***********
