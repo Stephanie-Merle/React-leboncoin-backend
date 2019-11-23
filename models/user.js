@@ -12,7 +12,7 @@ const User = mongoose.model("User", {
       maxlength: 30,
       required: true
     },
-    phone: { type: Number }
+    phone: { type: String }
   },
   token: { type: String },
   salt: { type: String },

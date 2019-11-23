@@ -12,6 +12,7 @@ app.use(cors());
 // need to use req.fields instead of req.body because of formidable
 app.use(formidable());
 
+// to connect to MongoDB local or cloud
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -22,9 +23,6 @@ app.use(userRoute);
 
 const offerRoute = require("./routes/offer");
 app.use(offerRoute);
-
-// const offersRoute = require("./routes/offers");
-// app.use(offersRoute);
 
 app.listen(process.env.PORT, () => {
   console.log("server started");

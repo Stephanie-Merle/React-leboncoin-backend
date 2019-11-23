@@ -12,5 +12,5 @@ const Offer = mongoose.model("Offer", {
     ref: "User"
   }
 });
-
+// creator can be populate to find information about the user posting the offer
 module.exports = Offer;
